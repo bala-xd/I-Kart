@@ -1,0 +1,36 @@
+package com.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.model.Customer;
+import com.repo.ICustomerRepo;
+
+@Service
+public class CustomerService {
+
+    @Autowired
+    private ICustomerRepo repo;
+
+    public Customer createCustomer(Customer c) {
+        return repo.save(c);
+    }
+
+    public List<Customer> getAllCustomers() {
+        return repo.findAll();
+    }
+    
+    public Customer getCustomerByEmail(String email) {
+    	Optional<Customer> op = repo.findByEmail(email);
+    	System.out.println(email);
+    	return op.isEmpty() ? null : op.get();
+    }
+
+    public Customer getCustomer(long id) {
+        Optional<Customer> op = repo.findById(id);
+        return op.orElse(null);
+    }
+}

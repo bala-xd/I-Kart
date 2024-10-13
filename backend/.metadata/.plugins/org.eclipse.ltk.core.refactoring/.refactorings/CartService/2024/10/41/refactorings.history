@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;CustomerDTO.java&apos; to &apos;LoginService/src/main/java/com.dto&apos;&#x0D;&#x0A;- Original project: &apos;CartService&apos;&#x0D;&#x0A;- Destination element: &apos;LoginService/src/main/java/com.dto&apos;&#x0D;&#x0A;- Original element: &apos;com.dto.CustomerDTO.java&apos;" description="Copy compilation unit" destination="=LoginService/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.dto" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.dto{CustomerDTO.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1728720615661" units="1" version="1.0"/>
+</session>

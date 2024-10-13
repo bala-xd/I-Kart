@@ -1,0 +1,6 @@
+spring.application.name=api-gateway
+eureka.client.service-url.default-zone = http://localhost:8761/eureka
+
+spring.cloud.gateway.mvc.routes[0].id=product-service
+spring.cloud.gateway.mvc.routes[0].uri= lb://product-service
+spring.cloud.gateway.mvc.routes[0].predicates[0] = Path=product-api 

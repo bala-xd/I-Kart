@@ -1,0 +1,102 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #e3f9e5 0%, #c1e3c6 100%);
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #e3f9e5 0%, #c1e3c6 100%);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 90vh;
+}
+
+h1, h2 {
+  color: #333;
+  text-align: center;
+  font-family: 'Verdana', sans-serif;
+}
+
+
+.form-container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  margin: 10px auto;
+  display: flex; /* Use flexbox for the layout */
+  gap: 20px; /* Space between left and right containers */
+}
+
+.left, .right {
+  flex: 1; /* Allow both to grow equally */
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+}
+
+h1, h2 {
+  color: #333;
+  text-align: center;
+  font-family: 'Verdana', sans-serif;
+}
+
+form {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  margin: 20px auto;
+  transition: transform 0.3s;
+}
+
+form:hover {
+  transform: translateY(-5px);
+}
+
+input {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+  border: 1px solid #28a745; /* Green focus border */
+  outline: none;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Green shadow */
+}
+
+button {
+  background-color: #28a745; /* Green button */
+  color: white;
+  border: none;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px);
+}
+
+.err {
+  color: red;
+  font-size: 12px;
+  padding: 4px 0;
+}

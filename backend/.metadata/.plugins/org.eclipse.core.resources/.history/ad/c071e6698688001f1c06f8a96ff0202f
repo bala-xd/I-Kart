@@ -1,0 +1,39 @@
+package com.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dto.CustomerDTO;
+import com.proxy.ICustomerProxy;
+
+@Service
+public class UserService {
+	@Autowired
+	private ICustomerProxy proxy;
+	
+	public List<CustomerDTO> getAll(){
+	
+		return proxy.getAllCustomers();
+	}
+
+	public CustomerDTO createUser(CustomerDTO customer) {
+		
+		CustomerDTO cDTO = proxy.addCustomer(customer);
+		return cDTO;
+	}
+	
+	/*public CustomerDTO validateUser(UserDto u) {
+		CustomerDTO cDto = repo.getCustomer();
+		return user;
+	}
+	
+	public CustomerDTO updateLoginStatus(User u) {
+		if (u.getLoginStatus()==0) u.setLoginStatus(1);
+		else u.setLoginStatus(0);
+		User user = repo.save(u);
+        return user;
+    }*/
+
+}
