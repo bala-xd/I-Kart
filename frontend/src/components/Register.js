@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { login_uri, cart_uri } from '../Config';
+import { user_uri } from '../Config';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
     const [user, setUser] = useState({
         "name": "",
+        "username": "",
         "email": "",
         "password": "",
         "dob": "",
@@ -13,16 +16,23 @@ function Register() {
         "phone": ""
     });
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${login_uri}/register`, user);
-            await axios.post(`${cart_uri}/new-cart/${res.data.userId}`);
+            const res = await axios.post(`${user_uri}/register`, user);
+            toast.success('User registered Successfully!', {
+                position: "bottom-right",
+                autoClose: 3200,
+                hideProgressBar: false,
+                closeButton: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             console.log(res);
-            navigate('/profile'); 
         } catch (err) {
             console.log(err);
             setError(err.response.data);
@@ -36,6 +46,8 @@ function Register() {
 
     return (
         <div className='container'>
+            <ToastContainer
+            />
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-container">

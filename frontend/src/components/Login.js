@@ -1,30 +1,25 @@
 import { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import { login_uri } from '../Config';
-import Auth from '../modules/Auth';
+import { user_uri } from '../Config';
+import auth from '../modules/Auth';
 
 function Login() {
     const [user,setUser] = useState({
-        "email": "",
+        "username": "",
         "password": ""
     });
     const [error, setError] = useState(null);
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
         try {
-            console.log(`${login_uri}/login`);
-            const res = await axios.put(`${login_uri}/login`, user);
-            Auth.setUserToken(res);
-            navigate('/'); 
-            window.location.reload();
+            const token = await axios.post(`${user_uri}/login`, user);
+            auth.setUserToken(token.data);
+            window.location.href='/';
         } catch (err) {
             console.log(err);
-            setError(err.response.data);
+            setError("Invalid Username or Password!");
         }
         
     };
@@ -39,9 +34,9 @@ function Login() {
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
+                    type="text"
+                    placeholder="Username"
+                    name="username"
                     onChange={(e) => handleChange(e)}
                     required
                 />

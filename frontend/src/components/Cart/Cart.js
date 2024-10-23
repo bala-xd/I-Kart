@@ -4,23 +4,24 @@ import { cart_uri } from '../../Config';
 import './Cart.css';
 import { FaSquarePlus, FaSquareMinus } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { jwtDecode } from 'jwt-decode';
+import auth from '../../modules/Auth';
 
 function Cart() {
 
   const [cart, setCart] = useState({});
   useEffect(()=>{
-    console.log('running');
-    var user = localStorage.getItem("auth");
-    user = JSON.parse(user)?.data;
-    //let userId = '601c';
-    
-    axios.get(`${cart_uri}/cart/${user?.userId}`)
-    .then((res)=> {
-      setCart(res.data);
-      console.log(res);
-    }).catch((err)=>{
-      console.log(err);
-    })
+    var token = auth.getToken();
+
+    if (token.length>0) {
+      var user = jwtDecode(token);
+      axios.get(`${cart_uri}/cart/${user?.id}`)
+        .then(response => {
+            setCart(response.data)
+            console.log(response);
+        })
+        .catch(error => console.error(error));
+    }
 
   }, [] )
 

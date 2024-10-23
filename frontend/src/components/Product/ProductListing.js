@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Don't forget to import axios
 import { product_uri, cart_uri } from '../../Config';
 import './ProductListing.css';
+import { jwtDecode } from 'jwt-decode';
+import auth from '../../modules/Auth';
 
 function ProductListing() {
     const [products, setProducts] = useState([]);
@@ -20,13 +22,18 @@ function ProductListing() {
     }, []);
 
     async function addProduct(prod_id) {
-        let user = localStorage.getItem("auth");
-        user = JSON.parse(user).data;
-        try {
-            const cart = await axios.post(`${cart_uri}/add-item/${user.userId}/${prod_id}/1`);
-            console.log(cart);
-        } catch(err) {
-            console.log(err);
+        var token = auth.getToken();
+
+        if (token.length>0) {
+            var user = jwtDecode(token);
+            try {
+                const cart = await axios.post(`${cart_uri}/add-item/${user.id}/${prod_id}/1`);
+                console.log(cart);
+            } catch(err) {
+                console.log(err);
+            }
+        } else {
+            window.location.href='/login';
         }
     }
 

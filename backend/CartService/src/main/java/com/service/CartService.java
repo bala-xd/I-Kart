@@ -2,13 +2,14 @@ package com.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dto.CustomerDTO;
 import com.dto.ProductDTO;
+import com.dto.UserDTO;
 import com.model.Cart;
 import com.model.CartItem;
 import com.repo.ICartRepo;
@@ -19,14 +20,14 @@ public class CartService {
     @Autowired
     private ICartRepo repo;
 
-    public Cart createCart(CustomerDTO cDto) {
+    public Cart createCart(UserDTO uDto) {
     	Cart c = new Cart();
-    	c.setCustomerName(cDto.getName());
-    	c.setCartId(cDto.getUserId());
+    	c.setCustomerName(uDto.getUsername());
+    	c.setCartId(uDto.getId());
         return repo.save(c);
     }
 
-    public Cart getCart(String cartId) {
+    public Cart getCart(UUID cartId) {
         Optional<Cart> op = repo.findById(cartId);
         return op.orElse(null);
     }

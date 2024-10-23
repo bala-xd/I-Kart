@@ -38,11 +38,12 @@
 		<item key="height" value="400"/>
 	</section>
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
-		<item key="updateSimilarElements" value="false"/>
+		<item key="updateSimilarElements" value="true"/>
 		<item key="updateSimilarElementsMatchStrategy" value="1"/>
 		<item key="updateTextualMatches" value="false"/>
 		<item key="updateQualifiedNames" value="false"/>
 		<item key="patterns" value="*"/>
+		<item key="renameSubpackages" value="false"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
 		<item key="pageIndex" value="2"/>
@@ -63,5 +64,16 @@
 		<item key="DIALOG_WIDTH" value="846"/>
 		<item key="DIALOG_HEIGHT" value="1020"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+	<section name="ProblemSeveritiesConfigurationBlock">
+		<item key="expanded0" value="false"/>
+		<item key="expanded1" value="false"/>
+		<item key="expanded2" value="false"/>
+		<item key="expanded3" value="true"/>
+		<item key="expanded4" value="false"/>
+		<item key="expanded5" value="false"/>
+		<item key="expanded6" value="false"/>
+		<item key="expanded7" value="false"/>
+		<item key="expanded8" value="false"/>
 	</section>
 </section>

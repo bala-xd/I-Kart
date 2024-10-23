@@ -1,22 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { useEffect, useState } from 'react';
-import { login_uri } from '../../Config';
-import axios from 'axios';
+import auth from '../../modules/Auth';
+import { jwtDecode } from 'jwt-decode';
 
 function Header() {
     const [user, setUser] = useState();
 
     useEffect(()=>{
-        let token = localStorage.getItem("auth");
-        token = JSON.parse(token)?.data;
-        if (token) setUser(token);
+        let token = auth.getToken();
+        if (token.length > 0) {
+            var user = jwtDecode(token);
+            console.log(user.id)
+            setUser(user);
+        }
     }, [])
 
     function logout() {
-        axios.put(`${login_uri}/logout`, user)
-        .catch((err)=>console.log(err));
-        localStorage.removeItem("auth");
+        auth.logout();
         setUser({});
         window.location.reload();
     }
@@ -34,9 +35,11 @@ function Header() {
                     { user ? 
                         <li onClick={logout}><Link to="/">Logout</Link></li>
                         :
-                        <li><Link to="/login">Login</Link></li>
+                        <>
+                            <li><Link to="/login">Login</Link></li>
+                            <li><Link to="/register">Register</Link></li>
+                        </>
                     }
-                    <li><Link to="/register">Register</Link></li>
                 </ul>
             </nav>
         </div>

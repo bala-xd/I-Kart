@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dto.CustomerDTO;
 import com.dto.ProductDTO;
+import com.dto.UserDTO;
 import com.model.Cart;
-import com.proxy.ICustomerProxy;
 import com.proxy.IProductProxy;
+import com.proxy.IUserProxy;
 import com.service.CartService;
 
 @RestController
@@ -25,10 +27,10 @@ public class CartController {
     private CartService service;
     
     @Autowired
-    private ICustomerProxy c_proxy;
+    private IUserProxy userProxy;
     
     @Autowired
-    private IProductProxy p_proxy;
+    private IProductProxy productProxy;
 
     @GetMapping("")
     public String index() {
@@ -40,37 +42,30 @@ public class CartController {
     }
     
     @GetMapping("/cart/{cartId}")
-    public Cart getCart(@PathVariable String cartId) {
-		return service.getCart(cartId);
+    public Cart getCart(@PathVariable UUID cartId) {
+    	Cart cart = service.getCart(cartId);
+		return (cart==null) ? createCartById(cartId) : cart;
 	}
 
-    @PostMapping("/new-cart/{customerId}")
-    public ResponseEntity<?> getCartById(@PathVariable String customerId) {
-    	CustomerDTO cDto = c_proxy.getCustomer(customerId);
-    	if (cDto==null) return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Invalid Customer Id!");
-        return ResponseEntity.ok(service.createCart(cDto));
-    }
-
     @PostMapping("/add-item/{cartId}/{productId}/{qty}")
-    public ResponseEntity<?> addCart(@PathVariable String cartId, 
+    public ResponseEntity<?> addCart(@PathVariable UUID cartId, 
     		@PathVariable long productId, @PathVariable int qty) {
-    	ProductDTO pDto = p_proxy.getProduct(productId);
+    	
+    	ProductDTO pDto = productProxy.getProduct(productId);
     	if (pDto==null) return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body("Invalid Product Id!");
+    	
     	Cart cart = service.getCart(cartId);
-    	if (cart==null)	return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Invalid Cart Id!");
-        return ResponseEntity.ok(service.addItemtoCart(cart, pDto, qty));
+    	if (cart==null)	cart = createCartById(cartId);
+        
+    	return ResponseEntity.ok(service.addItemtoCart(cart, pDto, qty));
     }
     
     @DeleteMapping("/delete-item/{cartId}/{productId}")
-    public ResponseEntity<?> deleteItemFromCart(@PathVariable String cartId, 
+    public ResponseEntity<?> deleteItemFromCart(@PathVariable UUID cartId, 
     		@PathVariable long productId) {
-    	ProductDTO pDto = p_proxy.getProduct(productId);
+    	ProductDTO pDto = productProxy.getProduct(productId);
     	if (pDto==null) return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body("Invalid Product Id!");
@@ -79,5 +74,10 @@ public class CartController {
                 .status(HttpStatus.NOT_FOUND)
                 .body("Invalid Cart Id!");
         return ResponseEntity.ok(service.removeItemFromCart(cart, pDto));
+    }
+    
+    public Cart createCartById(@PathVariable UUID cartId) {
+    	UserDTO uDto = userProxy.getUser(cartId);
+        return service.createCart(uDto);
     }
 }
