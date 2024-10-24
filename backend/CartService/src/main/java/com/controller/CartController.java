@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dto.ProductDTO;
-import com.dto.UserDTO;
 import com.model.Cart;
 import com.proxy.IProductProxy;
-import com.proxy.IUserProxy;
 import com.service.CartService;
 
 @RestController
@@ -25,9 +23,6 @@ public class CartController {
 
     @Autowired
     private CartService service;
-    
-    @Autowired
-    private IUserProxy userProxy;
     
     @Autowired
     private IProductProxy productProxy;
@@ -43,8 +38,7 @@ public class CartController {
     
     @GetMapping("/cart/{cartId}")
     public Cart getCart(@PathVariable UUID cartId) {
-    	Cart cart = service.getCart(cartId);
-		return (cart==null) ? createCartById(cartId) : cart;
+		return service.getCart(cartId);
 	}
 
     @PostMapping("/add-item/{cartId}/{productId}/{qty}")
@@ -57,8 +51,6 @@ public class CartController {
                 .body("Invalid Product Id!");
     	
     	Cart cart = service.getCart(cartId);
-    	if (cart==null)	cart = createCartById(cartId);
-        
     	return ResponseEntity.ok(service.addItemtoCart(cart, pDto, qty));
     }
     
@@ -76,8 +68,4 @@ public class CartController {
         return ResponseEntity.ok(service.removeItemFromCart(cart, pDto));
     }
     
-    public Cart createCartById(@PathVariable UUID cartId) {
-    	UserDTO uDto = userProxy.getUser(cartId);
-        return service.createCart(uDto);
-    }
 }

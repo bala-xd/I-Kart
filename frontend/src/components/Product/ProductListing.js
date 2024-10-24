@@ -5,8 +5,22 @@ import './ProductListing.css';
 import { jwtDecode } from 'jwt-decode';
 import auth from '../../modules/Auth';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function ProductListing() {
     const [products, setProducts] = useState([]);
+
+    const notify = (productName) => toast.success(`${productName} is added to your cart!`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -21,14 +35,14 @@ function ProductListing() {
         fetchProducts();
     }, []);
 
-    async function addProduct(prod_id) {
+    async function addProduct(prod_id, productName) {
         var token = auth.getToken();
 
         if (token.length>0) {
             var user = jwtDecode(token);
             try {
-                const cart = await axios.post(`${cart_uri}/add-item/${user.id}/${prod_id}/1`);
-                console.log(cart);
+                await axios.post(`${cart_uri}/add-item/${user.id}/${prod_id}/1`);
+                notify(productName);
             } catch(err) {
                 console.log(err);
             }
@@ -39,6 +53,7 @@ function ProductListing() {
 
     return (
         <div className='products'>
+            <ToastContainer/>
             <h1>Products</h1>
             {products && products.length > 0 ? (
                 <div className='card-container'>
@@ -50,7 +65,7 @@ function ProductListing() {
                             <p><strong>Description:</strong> {p.description}</p>
                             <p><strong>Stock:</strong> {p.stock}</p>
                             <p><strong>Category:</strong> {p.category}</p>
-                            <button onClick={()=>addProduct(p.id)}>Add to Cart</button>
+                            <button onClick={()=>addProduct(p.id,p.name)}>Add to Cart</button>
                         </div>
                     ))}
                 </div>

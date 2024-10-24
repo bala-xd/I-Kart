@@ -100,3 +100,21 @@ button:hover {
   font-size: 12px;
   padding: 4px 0;
 }
+
+.user-link {
+  font-size: 14px; /* Adjust font size */
+  color: #333; /* Dark gray color for the text */
+  display: inline-block; /* Allows padding and margin */
+  margin: 20px 0; /* Adds vertical spacing */
+}
+
+.user-link a {
+  color: #007BFF; /* Bootstrap primary color for links */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Make link text bold */
+  transition: color 0.3s ease;
+}
+
+.user-link a:hover {
+  color: #ea3535;
+}

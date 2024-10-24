@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { user_uri } from '../Config';
 import auth from '../modules/Auth';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
     const [user,setUser] = useState({
@@ -9,6 +10,7 @@ function Login() {
         "password": ""
     });
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,7 +18,8 @@ function Login() {
         try {
             const token = await axios.post(`${user_uri}/login`, user);
             auth.setUserToken(token.data);
-            window.location.href='/';
+            navigate('/');
+            window.location.reload();
         } catch (err) {
             console.log(err);
             setError("Invalid Username or Password!");
@@ -49,6 +52,7 @@ function Login() {
                 />
                 { error && <span className='err'>{error}</span>}
                 <button type="submit">Login</button>
+                <span className='user-link'>New User? <Link to='/register'>Click here</Link> to Register</span>
             </form>
         </div>
     );

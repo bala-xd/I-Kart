@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { user_uri } from '../Config';
+import { Link } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,8 +55,8 @@ function Register() {
                     <div className="left">
                         <input
                             type="text"
-                            placeholder="Name"
-                            name="name"
+                            placeholder="Username"
+                            name="username"
                             onChange={handleChange}
                             required
                         />
@@ -65,6 +66,7 @@ function Register() {
                             name="email"
                             onChange={handleChange}
                             required
+                            disabled
                         />
                         <input
                             type="password"
@@ -81,6 +83,7 @@ function Register() {
                             name="dob"
                             onChange={handleChange}
                             required
+                            disabled
                         />
                         <input
                             type="text"
@@ -88,6 +91,7 @@ function Register() {
                             name="address"
                             onChange={handleChange}
                             required
+                            disabled
                         />
                         <input
                             type="text"
@@ -95,11 +99,13 @@ function Register() {
                             name="phone"
                             onChange={handleChange}
                             required
+                            disabled
                         />
                     </div>
                 </div>
                 {error && <span className='err'>{error}</span>}
                 <button type="submit">Register</button>
+                <span className='user-link'>Already a User? <Link to='/login'>Click here</Link> to Sign In</span>
             </form>
         </div>
     );

@@ -5,14 +5,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.JoinColumn;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Cart {
 	@Id
@@ -22,14 +25,12 @@ public class Cart {
 
     @ElementCollection
     @CollectionTable(name = "cart_items", joinColumns = @JoinColumn(name = "cart_id"))
-    private List<CartItem> items;
+    private List<CartItem> items = new ArrayList<>();
 
     private double totalPrice;
 
-    public Cart(UUID cartId, List<CartItem> items, double totalPrice) {
+    public Cart(UUID cartId) {
         this.cartId = cartId;
-        this.items = items;
-        this.totalPrice = totalPrice;
     }
     
     public void addItem(CartItem item) {

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { product_uri } from '../../Config';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Product = () => {
 
     const [product, setProduct] = useState({
@@ -11,6 +14,17 @@ const Product = () => {
         stock: 0,
         category: '',
     });
+
+    const notify = (productName) => toast.success(`${productName} is added!`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeButton: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
 
 
     const handleChange = (e) => {
@@ -26,6 +40,7 @@ const Product = () => {
         try {
             const res = await axios.post(`${product_uri}/add-product`, product);
             console.log(res.data);
+            notify(product?.name);
         } catch (err) {
             console.error('Error adding product:', err);
         }
@@ -33,6 +48,7 @@ const Product = () => {
 
     return (
         <div className="add-product-page">
+            <ToastContainer/>
             <h1>Add Product</h1>
             <form onSubmit={handleSubmit} className="product-form">
                 <div className="form-group">
