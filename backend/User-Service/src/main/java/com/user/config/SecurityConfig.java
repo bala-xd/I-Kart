@@ -24,8 +24,8 @@ public class SecurityConfig {
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 	
-	@Autowired
-	private JwtFilter jwtFilter; 
+	//@Autowired
+	//private JwtFilter jwtFilter; 
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -50,11 +50,11 @@ public class SecurityConfig {
 		return http
 				.csrf(cus -> cus.disable())
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/user-api/login","/user-api/register","/user-api/user/**")
-						.permitAll().anyRequest().authenticated())
+						.permitAll().anyRequest().permitAll())
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session->
 					session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
+		//.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 	}
 }

@@ -3,6 +3,8 @@ package com.user.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,8 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody User u) {
 		User user =service.registerUser(u);
-		return ResponseEntity.ok(user);
+		if (user != null)  return ResponseEntity.ok(user);
+		return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists!");
 	}
 	
 	@PostMapping("/login")

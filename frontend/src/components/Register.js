@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { user_uri } from '../Config';
 import { Link } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 function Register() {
     const [user, setUser] = useState({
@@ -22,8 +22,9 @@ function Register() {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${user_uri}/register`, user);
-            toast.success('User registered Successfully!', {
+            await axios.post(`${user_uri}/register`, user);
+            toast.success(
+                <span className='toast'>User registered Successfully!</span>, {
                 position: "bottom-right",
                 autoClose: 3200,
                 hideProgressBar: false,
@@ -31,12 +32,11 @@ function Register() {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: "dark",
+                theme: "light",
                 });
-            console.log(res);
         } catch (err) {
             console.log(err);
-            setError(err.response.data);
+            setError(err?.response?.data);
         }
     };
 

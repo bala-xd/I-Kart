@@ -1,8 +1,11 @@
 package com.user.model;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +17,8 @@ public class UserPrincipal implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<String> roles = user.getRoles();
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toSet());
 	}
 
 	@Override

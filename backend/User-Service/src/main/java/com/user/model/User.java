@@ -1,5 +1,6 @@
 package com.user.model;
 
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -19,13 +20,16 @@ import lombok.NoArgsConstructor;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-    public UUID id;
+    private UUID id;
 	
-	public String username;
-	public String password;
-//	public String name;
-//	public String address;
-//	public String email;
-//	public String phone;
+	private String username;
+	private String password;
+	
+	private Set<String> roles;
+	
+//	private String name;
+//	private String address;
+//	private String email;
+//	private String phone;
 	
 }

@@ -99,6 +99,7 @@ button:hover {
   color: red;
   font-size: 12px;
   padding: 4px 0;
+  margin-left: 12px;
 }
 
 .user-link {
@@ -117,4 +118,9 @@ button:hover {
 
 .user-link a:hover {
   color: #ea3535;
+}
+
+.toast {
+  font-weight: bold;
+  color:#333;
 }

@@ -41,8 +41,9 @@ public class JWTService {
 		Map<String, Object> claims = new HashMap<>();
 		
 		claims.put("id", user.getId());
+		claims.put("roles", user.getRoles());
 		return Jwts.builder().setClaims(claims).setSubject(user.getUsername()).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 10)).signWith(getKey()).compact();
+				.setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 24 * 1000)).signWith(getKey()).compact();
 	}
 
 	private SecretKey getKey() {

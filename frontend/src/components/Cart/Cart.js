@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { cart_uri } from '../../Config';
 import './Cart.css';
 import { FaSquarePlus, FaSquareMinus } from "react-icons/fa6";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { jwtDecode } from 'jwt-decode';
 import auth from '../../modules/Auth';
+import api from '../../modules/Auth/api';
 
 function Cart() {
   const [cart, setCart] = useState({});
@@ -22,7 +22,7 @@ function Cart() {
 
   const fetchCart = async (userId) => {
     try {
-      const response = await axios.get(`${cart_uri}/cart/${userId}`);
+      const response = await api.get(`${cart_uri}/cart/${userId}`);
       setCart(response.data);
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ function Cart() {
 
   const updateCart = async (cartId) => {
     try {
-      const response = await axios.get(`${cart_uri}/cart/${cartId}`);
+      const response = await api.get(`${cart_uri}/cart/${cartId}`);
       setCart(response.data);
     } catch (error) {
       console.error(error);
@@ -40,7 +40,7 @@ function Cart() {
 
   async function incrementProduct(prod_id) {
     try {
-      await axios.post(`${cart_uri}/add-item/${cart.cartId}/${prod_id}/1`);
+      await api.post(`${cart_uri}/add-item/${cart.cartId}/${prod_id}/1`);
       updateCart(cart.cartId); // Re-fetch the updated cart
     } catch (err) {
       console.log(err);
@@ -49,7 +49,7 @@ function Cart() {
 
   async function decrementProduct(prod_id) {
     try {
-      await axios.post(`${cart_uri}/add-item/${cart.cartId}/${prod_id}/-1`);
+      await api.post(`${cart_uri}/add-item/${cart.cartId}/${prod_id}/-1`);
       updateCart(cart.cartId); // Re-fetch the updated cart
     } catch (err) {
       console.log(err);
@@ -58,7 +58,7 @@ function Cart() {
 
   async function removeProduct(prod_id) {
     try {
-      await axios.delete(`${cart_uri}/delete-item/${cart.cartId}/${prod_id}`);
+      await api.delete(`${cart_uri}/delete-item/${cart.cartId}/${prod_id}`);
       updateCart(cart.cartId); // Re-fetch the updated cart
     } catch (err) {
       console.log(err);

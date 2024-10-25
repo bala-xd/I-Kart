@@ -4,6 +4,7 @@ import { product_uri } from '../../Config';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import api from '../../modules/Auth/api';
 
 const Product = () => {
 
@@ -38,7 +39,7 @@ const Product = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`${product_uri}/add-product`, product);
+            const res = await api.post(`${product_uri}/add-product`, product);
             console.log(res.data);
             notify(product?.name);
         } catch (err) {

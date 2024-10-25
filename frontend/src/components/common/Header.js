@@ -1,20 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import auth from '../../modules/Auth';
-import { jwtDecode } from 'jwt-decode';
+import { UserContext } from '../../context/UserProvider';
 
 function Header() {
-    const [user, setUser] = useState();
-
-    useEffect(()=>{
-        let token = auth.getToken();
-        if (token.length > 0) {
-            var user = jwtDecode(token);
-            console.log(user.id)
-            setUser(user);
-        }
-    }, [])
+    const {user, setUser} = useContext(UserContext);
 
     function logout() {
         auth.logout();
@@ -30,7 +21,8 @@ function Header() {
                 <ul>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
-                    <li><Link to="/product">Product</Link></li>
+                    { (user?.roles[0] && user.roles[0] === "ROLE_ADMIN") &&
+                        <li><Link to="/product">Product</Link></li>}
                     <li><Link to="/cart">Cart</Link></li>
                     { user ? 
                         <li onClick={logout}><Link to="/">Logout</Link></li>

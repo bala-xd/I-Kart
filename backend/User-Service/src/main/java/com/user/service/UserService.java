@@ -1,6 +1,8 @@
 package com.user.service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,15 @@ public class UserService {
 	AuthenticationManager authManager;
 	
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-	
+
 	public User registerUser(User user) {
-		user.setPassword(encoder.encode(user.getPassword()));
-		return repo.save(user);
+		User existingUser = repo.findByUsername(user.getUsername());
+		if (existingUser != null) return null;
+	    user.setPassword(encoder.encode(user.getPassword()));
+	    if (user.getRoles() == null) {
+	        user.setRoles(new HashSet<>(Set.of("ROLE_USER")));
+	    }
+	    return repo.save(user);
 	}
 	
 	public String verifyUser(User user) {

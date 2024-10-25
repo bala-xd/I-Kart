@@ -12,6 +12,7 @@ const Profile = () => {
       try {
         var user = jwtDecode(token);
         setUserData(user);
+        console.log(user?.roles[0])
       } catch (error) {
         console.log(error);
       }

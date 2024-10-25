@@ -8,12 +8,14 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         const token = auth.getToken();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        if (token.length>0) {
+            config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
         }
         return config;
     },
-    (error) => Promise.reject(error)
+    (error) => {
+        Promise.reject(error)
+    }
 );
 
 export default api;
